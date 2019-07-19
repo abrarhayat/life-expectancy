@@ -3,13 +3,11 @@ import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.providers.AbstractMapProvider;
-import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
-import org.testng.annotations.Test;
 import processing.core.PApplet;
 
-import javax.swing.*;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +18,7 @@ import java.util.Map;
  */
 
 public class LifeExpectancyApplet extends PApplet {
-    private String windowsCommonDir = "H:\\Coursera\\Object Oriented Programming in Java\\Week 3" +
-            "\\LifeExpectancy\\data\\";
+    private String windowsCommonDir;
     private AbstractMapProvider mapProvider;
     private UnfoldingMap map;
     private int backgroundGray = color(10, 50, 10);
@@ -31,10 +28,12 @@ public class LifeExpectancyApplet extends PApplet {
 
     public LifeExpectancyApplet() {
         mapProvider = new Microsoft.AerialProvider();
+        windowsCommonDir = Paths.get("").toAbsolutePath().toString() + "\\data\\";
     }
 
     public LifeExpectancyApplet(AbstractMapProvider provider) {
         mapProvider = provider;
+        windowsCommonDir = Paths.get("").toAbsolutePath().toString() + "\\data\\";
     }
 
     public void setup() {
@@ -88,10 +87,5 @@ public class LifeExpectancyApplet extends PApplet {
                 currentMarker.setColor(color(150, 150, 150));
             }
         }
-    }
-
-    @Test
-    public void runApp() throws Exception {
-        LifeExpectancyApplet.main("LifeExpectancyApplet");
     }
 }
