@@ -1,6 +1,5 @@
 import org.testng.annotations.Test;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -17,5 +16,6 @@ public class TestLifeExpectancy {
     @Test
     public void runApp() throws Exception {
         LifeExpectancyApplet.main("LifeExpectancyApplet");
+        Thread.sleep(10000);
     }
 }

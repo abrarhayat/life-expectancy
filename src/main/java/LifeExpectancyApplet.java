@@ -18,7 +18,7 @@ import java.util.Map;
  */
 
 public class LifeExpectancyApplet extends PApplet {
-    private String windowsCommonDir;
+    private String commonProjectDir;
     private AbstractMapProvider mapProvider;
     private UnfoldingMap map;
     private int backgroundGray = color(10, 50, 10);
@@ -28,19 +28,25 @@ public class LifeExpectancyApplet extends PApplet {
 
     public LifeExpectancyApplet() {
         mapProvider = new Microsoft.AerialProvider();
-        windowsCommonDir = Paths.get("").toAbsolutePath().toString() + "\\data\\";
+        commonProjectDir = Paths.get("").toAbsolutePath().toString() + "\\data\\";
+        if(!System.getProperty("os.name").split("\\s")[0].toLowerCase().equals("windows")){
+            commonProjectDir = commonProjectDir.replaceAll("\\\\", "/");
+        }
     }
 
     public LifeExpectancyApplet(AbstractMapProvider provider) {
         mapProvider = provider;
-        windowsCommonDir = Paths.get("").toAbsolutePath().toString() + "\\data\\";
+        commonProjectDir = Paths.get("").toAbsolutePath().toString() + "\\data\\";
+        if(!System.getProperty("os.name").split("\\s")[0].toLowerCase().equals("windows")){
+            commonProjectDir = commonProjectDir.replaceAll("\\\\", "/");
+        }
     }
 
     public void setup() {
         size(1280, 720, JAVA2D);
         background(backgroundGray);
         map = new UnfoldingMap(this, 50, 50, 1280, 720, mapProvider);
-        lifeExpData = readLifeExpDataFromCSV(windowsCommonDir + "LifeExpectancyWorldBankModule3.csv");
+        lifeExpData = readLifeExpDataFromCSV(commonProjectDir + "LifeExpectancyWorldBankModule3.csv");
         MapUtils.createDefaultEventDispatcher(this, map);
         initMapElements();
         shadeCountries();
@@ -67,7 +73,7 @@ public class LifeExpectancyApplet extends PApplet {
     }
 
     private void initMapElements() {
-        String geoDataDir = windowsCommonDir + "countries.geo.json";
+        String geoDataDir = commonProjectDir + "countries.geo.json";
         countries = GeoJSONReader.loadData(this, geoDataDir);
         countryMarkers = MapUtils.createSimpleMarkers(countries);
         map.addMarkers(countryMarkers);
